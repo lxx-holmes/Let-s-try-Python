@@ -1,0 +1,78 @@
+
+def printBoard(board):
+    print("|"+board["top-L"]+"|"+board["top-M"]+"|"+board["top-R"]+"|")
+    print("-------")
+    print("|"+board["mid-L"]+"|"+board["mid-M"]+"|"+board["mid-R"]+"|")
+    print("-------")
+    print("|"+board["low-L"]+"|"+board["low-M"]+"|"+board["low-R"]+"|")
+    return board
+
+def check_done(theBoard):
+    if theBoard["top-L"]==theBoard["top-M"]==theBoard["top-R"]!=" " \
+       or theBoard["mid-L"]==theBoard["mid-M"]==theBoard["mid-R"]!=" " \
+       or theBoard["low-L"]==theBoard["low-M"]==theBoard["low-R"]!=" " \
+       or theBoard["top-L"]==theBoard["mid-L"]==theBoard["low-L"]!=" " \
+       or theBoard["top-M"]==theBoard["mid-M"]==theBoard["low-M"]!=" " \
+       or theBoard["top-R"]==theBoard["mid-R"]==theBoard["low-R"]!=" " \
+       or theBoard["top-L"]==theBoard["mid-M"]==theBoard["low-R"]!=" " \
+       or theBoard["top-R"]==theBoard["mid-M"]==theBoard["low-L"]!=" ":
+        return True
+    else:
+        return False #If false, no one wins
+
+def check_notfull(theBoard):
+    if " " in dict.values(theBoard):
+        return True #If True, game can continue
+    else:
+        return False
+
+print("Welcome to tic-tac-toe.\nThis game has two players: X and O.\n\
+X will go first. You have 3*3=9 squares where you can place your X or O.\n\
+Type top-L for the top-left corner, top-M for the top-middle and top-R for the top-right.\n\
+Also mid-L, mid-M, mid-R, low-L, low-M, low-R.\n\
+Input is case sensitive; invalid input will prompt re-enter.")
+theBoard={"top-L":" ","top-M":" ","top-R":" ",
+          "mid-L":" ","mid-M":" ","mid-R":" ",
+          "low-L":" ","low-M":" ","low-R":" ",} #I use the dictionary.
+turn="X"
+printBoard(theBoard)
+while check_done(theBoard)==False and check_notfull(theBoard)==True:
+    print("Turn for "+turn+" . Move on which space?")
+    move=input()
+    if move in theBoard and theBoard[move]==" " and check_notfull(theBoard)==True: #prevent illegal move or invalid input
+        theBoard[move]=turn
+        printBoard(theBoard)
+        check_done(theBoard)
+        check_notfull(theBoard)
+        if check_done(theBoard)==False and check_notfull(theBoard)==True: #check if the game can continue
+            if turn=="X":
+                turn="O" #change player
+            else:
+                turn="X"
+        elif check_done(theBoard)==True: #check if one side wins
+            print(turn+"wins")
+            question=input("Type C to continue or any other key to end: ")
+            if question.lower()=="c":
+                theBoard={"top-L":" ","top-M":" ","top-R":" ",
+                          "mid-L":" ","mid-M":" ","mid-R":" ",
+                          "low-L":" ","low-M":" ","low-R":" ",}
+                turn="X"
+                printBoard(theBoard) #restart
+            else:
+                print("Bye.")
+        else: #if it is a draw (spaces are full but no one wins)
+            print("Draw.")
+            question=input("Type C to continue or any other key to end: ")
+            if question.lower()=="c":
+                theBoard={"top-L":" ","top-M":" ","top-R":" ",
+                          "mid-L":" ","mid-M":" ","mid-R":" ",
+                          "low-L":" ","low-M":" ","low-R":" ",}
+                turn="X"
+                printBoard(theBoard) #restart
+            else:
+                print("Bye.")
+    else:
+        print("Please enter a valid space name.")
+
+        
+    
